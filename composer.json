@@ -1,0 +1,46 @@
+{
+    "name": "codder/laravel-modular",
+    "description": "A simple package of modules for laravel.",
+    "keywords": [
+        "codder",
+        "laravel-modular",
+        "laravel modules",
+        "laravel HMVC",
+        "laravel",
+        "php"
+    ],
+    "homepage": "https://github.com/codder-biz/laravel-modular",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Codder",
+            "role": "Developer",
+            "homepage": "https://codder.com.br"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "laravel/framework": ">=8.0"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Codder\\Laravel\\Modular\\ModularServiceProvider"
+            ]
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Codder\\Laravel\\Modular\\": "src"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
