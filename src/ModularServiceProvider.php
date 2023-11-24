@@ -3,9 +3,8 @@
 namespace Codder\Laravel\Modular;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\{Artisan, Event};
-use Illuminate\Console\Events\CommandFinished;
 use Codder\Laravel\Modular\ModulesFinder;
+use Codder\Laravel\Modular\Providers\EventServiceProvider;
 
 class ModularServiceProvider extends ServiceProvider
 {
@@ -19,14 +18,6 @@ class ModularServiceProvider extends ServiceProvider
         // Providers
         $this->app->singleton(ModulesFinder::class);
         $this->registerProviders();
-
-        // If storage:link finish so call our storage link.
-        Event::listen(function (CommandFinished $event) {
-            if ($event->command == 'storage:link') {
-                Artisan::call('module:storage:link');
-                dump(Artisan::output());
-            }
-        });
     }
 
     /**
@@ -37,8 +28,7 @@ class ModularServiceProvider extends ServiceProvider
     public function boot()
     {
         // Console
-        if ($this->app->runningInConsole())
-            $this->console();
+        if ($this->app->runningInConsole()) $this->console();
     }
 
         /**
@@ -70,7 +60,9 @@ class ModularServiceProvider extends ServiceProvider
 
         // Register the exists providers
         foreach ($finder->list as $provider) {
-            $this->app->register($provider);
+            if (class_exists($provider)) $this->app->register($provider);
         }
+
+        if ($this->app->runningInConsole()) $this->app->register(EventServiceProvider::class);
     }
 }
