@@ -23,13 +23,12 @@ class ModulesFinder
     private function find()
     {
         $this->list = [];
+        foreach (['AppServiceProvider', 'BroadcastServiceProvider', 'RouteServiceProvider', 'LivewireServiceProvider'] as $provider) {
+            $this->list[] = "Codder\Laravel\Modular\Providers\\$provider";
+        }
         $modules = modules();
-
         if (count($modules) > 0) {
             foreach ($modules as $module) {
-                foreach (['AppServiceProvider', 'BroadcastServiceProvider', 'RouteServiceProvider', 'LivewireServiceProvider'] as $provider) {
-                    $this->list[] = "Codder\Laravel\Modular\Providers\\$provider";
-                }
                 foreach (getFiles($path = module_path($module, 'Providers')) as $provider) {
                     $provider = str_replace($path . '/', '', substr($provider, 0, -4));
                     $this->list[] = 'Modules\\' . str_replace('/', '\\', $module) . '\Providers\\' . $provider;

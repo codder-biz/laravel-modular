@@ -31,7 +31,7 @@ class ModularServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) $this->console();
     }
 
-        /**
+    /**
      * Publish Config + Register Commands
      *
      * @return void
