@@ -34,6 +34,11 @@ The documentation will be available in soon.
 
 Tips: The skeleton follows the same as [nWidart/laravel-modules](https://nwidart.com/laravel-modules/v6/introduction).
 
+## Assets
+Your assets are stored in ```modules/MODULE/Resources/assets``` after that run ```php artisan storage:link``` to create symbolic links from your assets to public folder.
+
+To call the assets in your blade just call the helper ```module_asset('example::test.jpg')```
+
 
 ## License
 
