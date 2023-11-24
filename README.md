@@ -1,8 +1,10 @@
 # Laravel Modular
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/codder/laravel-modular.svg?style=flat-square)](https://packagist.org/packages/codder/laravel-modular)
-[![Total Downloads](https://img.shields.io/packagist/dt/codder/laravel-modular.svg?style=flat-square)](https://packagist.org/packages/codder/laravel-modular)
-
+<a href="https://packagist.org/packages/codder/laravel-modular"><img src="https://img.shields.io/packagist/v/codder/laravel-modular.svg?style=flat-square" alt="Total Downloads">
+</a>
+<a href="https://packagist.org/packages/codder/laravel-modular"><img src="https://img.shields.io/packagist/dt/codder/laravel-modular.svg?style=flat-square" alt="Latest Stable Version">
+</a>
+<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 
 ## Installation
 
@@ -34,7 +36,7 @@ The documentation will be available in soon.
 
 Tips: The skeleton follows the same as [nWidart/laravel-modules](https://nwidart.com/laravel-modules/v6/introduction).
 
-## Assets
+### Assets
 Your assets are stored in ```modules/MODULE/Resources/assets``` after that run ```php artisan storage:link``` to create symbolic links from your assets to public folder.
 
 To call the assets in your blade just call the helper ```module_asset('example::test.jpg')```
