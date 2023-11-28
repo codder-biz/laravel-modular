@@ -10,16 +10,15 @@ use Livewire\Livewire;
 use ReflectionClass;
 use Symfony\Component\Finder\SplFileInfo;
 
-/**
- * I got it from https://github.com/mhmiton/laravel-modules-livewire/blob/master/src/Providers/LivewireComponentServiceProvider.php
- */
 class LivewireServiceProvider extends ServiceProvider
 {
     private string $namespace = 'Http\\Controllers\\Livewire';
 
-    public function register()
+    public function boot()
     {
-        $this->registerModuleComponents();
+        if (class_exists(Livewire::class)) {
+            $this->registerModuleComponents();
+        }
     }
 
     public function provides()
@@ -34,7 +33,7 @@ class LivewireServiceProvider extends ServiceProvider
                 ->append('/' . $this->namespace)
                 ->replace(['\\'], '/');
 
-            $namespace = config('modules.namespace', 'Modules') . '\\' . $module . '\\' . $this->namespace;
+            $namespace = "Modules\\{$module}\\{$this->namespace}";
 
             $this->registerComponentDirectory($directory, $namespace, strtolower($module) . '::');
         };
