@@ -23,7 +23,7 @@ class ModulesFinder
     private function find()
     {
         $this->list = [];
-        foreach (['AppServiceProvider', 'BroadcastServiceProvider', 'RouteServiceProvider', 'LivewireServiceProvider'] as $provider) {
+        foreach (['AppModuleServiceProvider', 'BroadcastModuleServiceProvider', 'RouteModuleServiceProvider', 'LivewireModuleServiceProvider'] as $provider) {
             $this->list[] = "Codder\Laravel\Modular\Providers\\$provider";
         }
         $modules = modules();

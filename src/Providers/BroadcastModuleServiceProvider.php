@@ -4,7 +4,7 @@ namespace Codder\Laravel\Modular\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class BroadcastServiceProvider extends ServiceProvider
+class BroadcastModuleServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.

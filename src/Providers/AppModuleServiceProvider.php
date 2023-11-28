@@ -4,7 +4,7 @@ namespace Codder\Laravel\Modular\Providers;
 
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 
-class AppServiceProvider extends IlluminateServiceProvider
+class AppModuleServiceProvider extends IlluminateServiceProvider
 {
     /**
      * Module's configurations

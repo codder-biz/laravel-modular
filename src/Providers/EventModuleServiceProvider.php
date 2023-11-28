@@ -6,7 +6,7 @@ use Codder\Laravel\Modular\Events\{StorageLink, Optimize, OptimizeClear};
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Console\Events\CommandFinished;
 
-class EventServiceProvider extends ServiceProvider
+class EventModuleServiceProvider extends ServiceProvider
 {
     /**
      * The event listener mappings for the application.

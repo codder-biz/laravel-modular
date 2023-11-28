@@ -10,7 +10,7 @@ use Livewire\Livewire;
 use ReflectionClass;
 use Symfony\Component\Finder\SplFileInfo;
 
-class LivewireServiceProvider extends ServiceProvider
+class LivewireModuleServiceProvider extends ServiceProvider
 {
     private string $namespace = 'Http\\Controllers\\Livewire';
 

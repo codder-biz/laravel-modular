@@ -5,7 +5,7 @@ namespace Codder\Laravel\Modular\Providers;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 
-class RouteServiceProvider extends ServiceProvider
+class RouteModuleServiceProvider extends ServiceProvider
 {
     private static string $module;
 
