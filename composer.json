@@ -24,7 +24,7 @@
         "laravel/framework": ">=8.0"
     },
     "require-dev": {
-        "livewire/livewire": "2.12"
+        "livewire/livewire": "^3.2"
     },
     "config": {
         "sort-packages": true
