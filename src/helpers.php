@@ -83,7 +83,7 @@ if (!function_exists('modules')) {
 if (!function_exists('module_config_path')) {
     function module_config_path(string $module, ?string $extra = null)
     {
-        return module_path($module, 'Config' . ($extra ? '/' . $extra : null));
+        return module_path($module, 'config' . ($extra ? '/' . $extra : null));
     }
 }
 
@@ -91,7 +91,7 @@ if (!function_exists('module_config_path')) {
 if (!function_exists('module_database_path')) {
     function module_database_path(string $module, ?string $extra = null)
     {
-        return module_path($module, 'Database' . ($extra ? '/' . $extra : null));
+        return module_path($module, 'database' . ($extra ? '/' . $extra : null));
     }
 }
 
@@ -99,7 +99,7 @@ if (!function_exists('module_database_path')) {
 if (!function_exists('module_resource_path')) {
     function module_resource_path(string $module, ?string $extra = null)
     {
-        return module_path($module, 'Resources' . ($extra ? '/' . $extra : null));
+        return module_path($module, 'resources' . ($extra ? '/' . $extra : null));
     }
 }
 

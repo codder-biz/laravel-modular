@@ -12,7 +12,7 @@ use Symfony\Component\Finder\SplFileInfo;
 
 class LivewireModuleServiceProvider extends ServiceProvider
 {
-    private string $namespace = 'Http\\Controllers\\Livewire';
+    private string $namespace = 'App\\Http\\Livewire';
 
     public function boot()
     {
@@ -30,10 +30,11 @@ class LivewireModuleServiceProvider extends ServiceProvider
     {
         foreach (modules() as $module) {
             $directory = (string) Str::of(module_path($module))
-                ->append('/' . $this->namespace)
+                ->append('/' . lcfirst($this->namespace))
                 ->replace(['\\'], '/');
 
-            $namespace = "Modules\\{$module}\\{$this->namespace}";
+            $ucfirst = ucfirst($module);
+            $namespace = "Modules\\{$ucfirst}\\{$this->namespace}";
 
             $this->registerComponentDirectory($directory, $namespace, strtolower($module) . '::');
         };

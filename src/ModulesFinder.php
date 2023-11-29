@@ -31,7 +31,7 @@ class ModulesFinder
             foreach ($modules as $module) {
                 foreach (getFiles($path = module_path($module, 'Providers')) as $provider) {
                     $provider = str_replace($path . '/', '', substr($provider, 0, -4));
-                    $this->list[] = 'Modules\\' . str_replace('/', '\\', $module) . '\Providers\\' . $provider;
+                    $this->list[] = 'Modules\\' . str_replace('/', '\\', $module) . '\\App\\Providers\\' . $provider;
                 }
             }
         }
@@ -49,6 +49,6 @@ class ModulesFinder
     public function build()
     {
         $this->find();
-        $this->write();
+        // $this->write();
     }
 }

@@ -80,7 +80,7 @@ class AppModuleServiceProvider extends IlluminateServiceProvider
 
         if ($this->app->runningInConsole()) {
             if (file_exists($commands = module_path(static::$module, 'Commands'))) {
-                $module = 'Modules\\' . str_replace('/', '\\', static::$module) . '\Commands\\';
+                $module = 'Modules\\' . str_replace('/', '\\', static::$module) . '\\App\\Console\\Commands\\';
                 $commands = array_map(function ($command) use ($module) {
                     return $module . str_replace('.php', '', $command->getFileName());
                 }, getFiles($commands));
@@ -88,7 +88,7 @@ class AppModuleServiceProvider extends IlluminateServiceProvider
                 $this->commands($commands);
             }
 
-            $console = module_path(static::$module, 'Routes/console.php');
+            $console = module_path(static::$module, 'routes/console.php');
             if (file_exists($console)) require $console;
         }
     }
@@ -100,7 +100,7 @@ class AppModuleServiceProvider extends IlluminateServiceProvider
      */
     protected function loadTranslations()
     {
-        if (file_exists($dir = module_path(static::$module, 'Resources/lang')))
+        if (file_exists($dir = module_path(static::$module, 'resources/lang')))
             $this->loadTranslationsFrom($dir, studlyToSlug(static::$module));
     }
 
@@ -111,7 +111,7 @@ class AppModuleServiceProvider extends IlluminateServiceProvider
      */
     protected function loadMigrations()
     {
-        if (file_exists($dir = module_path(static::$module, 'Database/Migrations')))
+        if (file_exists($dir = module_path(static::$module, 'ratabase/migrations')))
             $this->loadMigrationsFrom($dir);
     }
 
@@ -122,7 +122,7 @@ class AppModuleServiceProvider extends IlluminateServiceProvider
      */
     protected function loadViews()
     {
-        if (file_exists($dir = module_path(static::$module, 'Resources/views')))
+        if (file_exists($dir = module_path(static::$module, 'resources/views')))
             $this->loadViewsFrom($dir, studlyToSlug(static::$module));
     }
 }

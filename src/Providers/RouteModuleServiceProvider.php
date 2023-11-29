@@ -19,7 +19,8 @@ class RouteModuleServiceProvider extends ServiceProvider
         foreach (modules() as $module) {
             // The controller namespace for the application.
             // When present, controller route declarations will automatically be prefixed with this namespace.
-            $this->namespace = "Modules\\$module\\Http\\Controllers";
+            $ucfirst = ucfirst($module);
+            // $this->namespace = "Modules\\$ucfirst\\App\\Http\\Controllers";
             $this::$module = $module;
             $isConsole = $this->app->runningInConsole();
             $module = studlyToSlug($this::$module);
@@ -49,7 +50,7 @@ class RouteModuleServiceProvider extends ServiceProvider
             $routes->name($module . '.');
         }
 
-        $routes->group(module_path($this::$module, 'Routes/api.php'));
+        $routes->group(module_path($this::$module, 'routes/api.php'));
     }
 
     /**
@@ -69,6 +70,6 @@ class RouteModuleServiceProvider extends ServiceProvider
             $routes->name($module . '.');
         }
 
-        $routes->group(module_path($this::$module, 'Routes/web.php'));
+        $routes->group(module_path($this::$module, 'routes/web.php'));
     }
 }
