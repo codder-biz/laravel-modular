@@ -4,7 +4,7 @@ namespace Codder\Laravel\Modular;
 
 use Illuminate\Support\ServiceProvider;
 use Codder\Laravel\Modular\ModulesFinder;
-use Codder\Laravel\Modular\Providers\EventServiceProvider;
+use Codder\Laravel\Modular\Providers\EventModuleServiceProvider;
 
 class ModularServiceProvider extends ServiceProvider
 {
@@ -63,6 +63,6 @@ class ModularServiceProvider extends ServiceProvider
             if (class_exists($provider)) $this->app->register($provider);
         }
 
-        if ($this->app->runningInConsole()) $this->app->register(EventServiceProvider::class);
+        if ($this->app->runningInConsole()) $this->app->register(EventModuleServiceProvider::class);
     }
 }
