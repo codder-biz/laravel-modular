@@ -19,8 +19,6 @@ class RouteModuleServiceProvider extends ServiceProvider
         foreach (modules() as $module) {
             // The controller namespace for the application.
             // When present, controller route declarations will automatically be prefixed with this namespace.
-            $ucfirst = ucfirst($module);
-            // $this->namespace = "Modules\\$ucfirst\\App\\Http\\Controllers";
             $this::$module = $module;
             $isConsole = $this->app->runningInConsole();
             $module = studlyToSlug($this::$module);
@@ -42,7 +40,6 @@ class RouteModuleServiceProvider extends ServiceProvider
     private function mapApiRoutes(bool $isConsole, string $module)
     {
         $routes = Route::middleware('api')
-            ->namespace($this->namespace)
             ->prefix('api')
             ->name($module . '.');
 
@@ -63,7 +60,6 @@ class RouteModuleServiceProvider extends ServiceProvider
     private function mapWebRoutes(bool $isConsole, string $module)
     {
         $routes = Route::middleware('web')
-            ->namespace($this->namespace)
             ->name($module . '.');
 
         if ($isConsole && in_array('module:routes', $_SERVER['argv'] ?? [])) {
