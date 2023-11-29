@@ -64,7 +64,7 @@ class StorageLinkCommand extends Command
         $links = [];
 
         foreach (modules() as $module) {
-            $links[storage_path('app/public/modules/'.strtolower($module))] = base_path("modules/$module/Resources/assets");
+            $links[storage_path('app/public/modules/'.strtolower($module))] = base_path("modules/$module/public");
         }
 
         return $links;
