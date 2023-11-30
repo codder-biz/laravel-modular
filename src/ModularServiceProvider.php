@@ -40,7 +40,8 @@ class ModularServiceProvider extends ServiceProvider
     {
         // Commands (Modular)
         $this->commands([
-            \Codder\Laravel\Modular\Console\Commands\StorageLinkCommand::class,
+            \Codder\Laravel\Modular\Console\Commands\StorageLink::class,
+            \Codder\Laravel\Modular\Console\Commands\MakeModule::class,
         ]);
     }
 

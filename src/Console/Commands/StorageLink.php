@@ -5,7 +5,7 @@ namespace Codder\Laravel\Modular\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 
-class StorageLinkCommand extends Command
+class StorageLink extends Command
 {
     /**
      * The console command signature.

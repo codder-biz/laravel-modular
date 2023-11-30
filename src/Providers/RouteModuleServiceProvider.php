@@ -7,65 +7,39 @@ use Illuminate\Support\Facades\Route;
 
 class RouteModuleServiceProvider extends ServiceProvider
 {
-    private static string $module;
-
-    /**
-     * Define your route model bindings, pattern filters, etc.
-     *
-     * @return void
-     */
-    public function boot()
+    public function boot(): void
     {
-        foreach (modules() as $module) {
-            // The controller namespace for the application.
-            // When present, controller route declarations will automatically be prefixed with this namespace.
-            $this::$module = $module;
-            $isConsole = $this->app->runningInConsole();
-            $module = studlyToSlug($this::$module);
-
-            $this->routes(function () use ($isConsole, $module) {
-                $this->mapApiRoutes($isConsole, $module);
-                $this->mapWebRoutes($isConsole, $module);
-            });
-        }
+        $this->routes(function () {
+            foreach (modules() as $module) {
+                $this->mapApiRoutes($module);
+                $this->mapWebRoutes($module);
+            }
+        });
     }
 
-    /**
-     * Load API routes
-     *
-     * @param boolean $isConsole
-     * @param string $module
-     * @return void
-     */
-    private function mapApiRoutes(bool $isConsole, string $module)
+    private function mapApiRoutes(string $module): void
     {
-        $routes = Route::middleware('api')
-            ->prefix('api')
+        $routes = Route::prefix('api')
+            ->middleware(['api', 'throttle:60,1'])
             ->name($module . '.');
 
-        if ($isConsole && in_array('module:routes', $_SERVER['argv'] ?? [])) {
+        if ($this->app->runningInConsole() && in_array('module:routes', $_SERVER['argv'] ?? [])) {
             $routes->name($module . '.');
         }
 
-        $routes->group(module_path($this::$module, 'routes/api.php'));
+        $routes->group(module_path($module, 'routes/api.php'));
     }
 
-    /**
-     * Load Web routes
-     *
-     * @param boolean $isConsole
-     * @param string $module
-     * @return void
-     */
-    private function mapWebRoutes(bool $isConsole, string $module)
+    private function mapWebRoutes(string $module): void
     {
         $routes = Route::middleware('web')
+            ->middleware('throttle:60,1')
             ->name($module . '.');
 
-        if ($isConsole && in_array('module:routes', $_SERVER['argv'] ?? [])) {
+        if ($this->app->runningInConsole() && in_array('module:routes', $_SERVER['argv'] ?? [])) {
             $routes->name($module . '.');
         }
 
-        $routes->group(module_path($this::$module, 'routes/web.php'));
+        $routes->group(module_path($module, 'routes/web.php'));
     }
 }

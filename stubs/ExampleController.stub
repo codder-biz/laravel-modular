@@ -1,0 +1,11 @@
+<?php
+
+namespace Modules\{{ namespace }}\App\Http\Controllers;
+
+class ExampleController extends \App\Http\Controllers\Controller
+{
+    public function index()
+    {
+        return view('{{ module }}::example');
+    }
+}
