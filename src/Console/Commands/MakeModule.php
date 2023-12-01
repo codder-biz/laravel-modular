@@ -9,25 +9,13 @@ use Livewire\Livewire;
 
 class MakeModule extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'module:make {module}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Create a new Laravel module';
 
     private array $modules;
 
     private string $module;
-
-    private bool $isFirst;
 
     private bool $hasLivewire;
 
@@ -41,12 +29,8 @@ class MakeModule extends Command
         $this->filesystem = new Filesystem;
         $this->modules = modules();
         $this->hasLivewire = class_exists(Livewire::class);
-        $this->isFirst = count($this->modules) !== 1;
     }
 
-    /**
-     * Execute the console command.
-     */
     public function handle()
     {
         $this->module = strtolower($this->argument('module'));
@@ -67,7 +51,7 @@ class MakeModule extends Command
         return $this->error('This module already exists!');
     }
 
-    private function makeDirectoriesWithGitKeep()
+    private function makeDirectoriesWithGitKeep(): void
     {
         if (!File::exists('modules')) {
             File::makeDirectory('modules');
@@ -133,7 +117,7 @@ class MakeModule extends Command
         $replace = array_values($placeholders);
 
         foreach ($this->getStubs() as $stub_file => $destination) {
-            $filename = $this->isFirst && $stub_file === 'composer.stub'
+            $filename = count($this->modules) !== 1 && $stub_file === 'composer.stub'
                 ? $destination
                 : "{$this->dir}/{$destination}";
 
@@ -150,7 +134,7 @@ class MakeModule extends Command
         }
     }
 
-    private function composerModule()
+    private function composerModule(): void
     {
         $ucfirst = ucfirst($this->module);
         $dir = base_path('modules/composer.json');
@@ -160,15 +144,18 @@ class MakeModule extends Command
         $this->filesystem->put($dir, $json);
     }
 
-    private function composerApp()
+    private function composerApp(): void
     {
-        if ($this->isFirst) {
-            $dir = base_path('composer.json');
-            $json = json_decode(file_get_contents($dir), true);
-            $json['require']['modules/modules'] = '*';
+        $dir = base_path('composer.json');
+        $json = json_decode(file_get_contents($dir), true);
+
+        if (!in_array('modules/modules', $json['require'])) $json['require']['modules/modules'] = '*';
+
+        if (!isset($json['repositories']) || !in_array('modules', array_column($json['repositories'], 'url'))) {
             $json['repositories'][] = ['type' => 'path', 'url' => 'modules', 'options' => ['symlink' => true]];
-            $json = json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-            $this->filesystem->put($dir, $json);
         }
+
+        $json = json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        $this->filesystem->put($dir, $json);
     }
 }
