@@ -2,7 +2,7 @@
 
 namespace Codder\Laravel\Modular\Providers;
 
-use Codder\Laravel\Modular\Events\{StorageLink, Optimize, OptimizeClear};
+use Codder\Laravel\Modular\Events\{StorageLink, Optimize, OptimizeClear, Seed};
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Console\Events\CommandFinished;
 
@@ -18,6 +18,7 @@ class EventModuleServiceProvider extends ServiceProvider
             StorageLink::class,
             Optimize::class,
             OptimizeClear::class,
+            Seed::class,
         ]
     ];
 

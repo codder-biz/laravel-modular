@@ -108,7 +108,7 @@ class AppModuleServiceProvider extends IlluminateServiceProvider
      */
     protected function loadMigrations()
     {
-        if (file_exists($dir = module_path(static::$module, 'ratabase/migrations')))
+        if (file_exists($dir = module_path(static::$module, 'database/migrations')))
             $this->loadMigrationsFrom($dir);
     }
 

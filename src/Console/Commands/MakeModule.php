@@ -40,10 +40,9 @@ class MakeModule extends Command
             $this->makeDirectoriesWithGitKeep($this->dir);
             $this->writeStubs();
             $this->info('Your module has been created!');
-            $this->line('Please wait, we are discovering your modules!');
             $this->composerModule();
             $this->composerApp();
-            exec('cd ' . base_path() . ' && composer update modules/modules > /dev/null 2>&1');
+            $this->call('module:discover');
             if ($this->hasLivewire) $this->line('Livewire, try to access: <info>' . url("{$this->module}-livewire") . '</info>');
             return $this->line('Finished, try to access: <info>' . url($this->module) . '</info>');
         }
@@ -60,21 +59,22 @@ class MakeModule extends Command
         File::makeDirectory("modules/{$this->module}");
 
         foreach ([
-            "config" => false,
-            "routes" => false,
-            "resources" => false,
-            "resources/views" => false,
-            "public" => true,
-            "database" => false,
-            "database/factories" => true,
-            "database/migrations" => true,
-            "database/seeders" => false,
-            "app" => false,
-            "app/Http" => false,
-            "app/Http/Controllers" => false,
-            "app/Http/Livewire" => !$this->hasLivewire,
-            "app/Models" => true,
-            "app/Providers" => true
+            'config' => false,
+            'routes' => false,
+            'resources' => false,
+            'resources/views' => false,
+            'public' => true,
+            'database' => false,
+            'database/factories' => true,
+            'database/migrations' => true,
+            'database/seeders' => false,
+            'tests' => true,
+            'app' => false,
+            'app/Http' => false,
+            'app/Http/Controllers' => false,
+            'app/Http/Livewire' => !$this->hasLivewire,
+            'app/Models' => true,
+            'app/Providers' => true
         ] as $dir => $keep) {
             File::makeDirectory("{$this->dir}/$dir");
             if ($keep) touch("{$this->dir}/$dir/.gitkeep");
@@ -140,6 +140,8 @@ class MakeModule extends Command
         $dir = base_path('modules/composer.json');
         $json = json_decode(file_get_contents($dir), true);
         $json['autoload']['psr-4']["Modules\\{$ucfirst}\\App\\"] = "{$this->module}/app/";
+        $json['autoload']['psr-4']["Modules\\{$ucfirst}\\Database\\Factories\\"] = "{$this->module}/database/factories/";
+        $json['autoload']['psr-4']["Modules\\{$ucfirst}\\Database\\Seeders\\"] = "{$this->module}/database/seeders/";
         $json = json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
         $this->filesystem->put($dir, $json);
     }
