@@ -61,10 +61,7 @@ class AppModuleServiceProvider extends IlluminateServiceProvider
 
         if (file_exists($config = module_config_path(static::$module))) {
             foreach (getFiles($config) as $file) {
-                $this->mergeConfigFrom(
-                    $file,
-                    studlyToSlug(static::$module) . '.' . str_replace('.php', '', $file->getRelativePathname())
-                );
+                $this->mergeConfigFrom($file->getPathname(), static::$module);
             }
         }
     }

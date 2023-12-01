@@ -44,7 +44,7 @@ class MakeModule extends Command
             $this->composerModule();
             $this->composerApp();
             exec('cd ' . base_path() . ' && composer update modules/modules > /dev/null 2>&1');
-            if ($this->hasLivewire) $this->line('Livewire, try to access: <info>' . url('counter') . '</info>');
+            if ($this->hasLivewire) $this->line('Livewire, try to access: <info>' . url("{$this->module}-livewire") . '</info>');
             return $this->line('Finished, try to access: <info>' . url($this->module) . '</info>');
         }
 
@@ -68,7 +68,7 @@ class MakeModule extends Command
             "database" => false,
             "database/factories" => true,
             "database/migrations" => true,
-            "database/seeders" => true,
+            "database/seeders" => false,
             "app" => false,
             "app/Http" => false,
             "app/Http/Controllers" => false,
@@ -130,7 +130,7 @@ class MakeModule extends Command
         }
 
         if ($this->hasLivewire) {
-            $this->filesystem->append("{$this->dir}/routes/web.php", "Route::get('/counter', 'Modules\\".ucfirst($this->module)."\\App\Http\Livewire\Counter');");
+            $this->filesystem->append("{$this->dir}/routes/web.php", "Route::get('$this->module-livewire', 'Modules\\".ucfirst($this->module)."\\App\Http\Livewire\Counter');");
         }
     }
 

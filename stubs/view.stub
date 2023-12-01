@@ -1,1 +1,1 @@
-This is your module: {{ module }}!
+This is your module: {{ config('{{ module }}.name') }}!
