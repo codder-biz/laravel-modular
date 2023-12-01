@@ -6,6 +6,14 @@
 </a>
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 
+`codder/laravel-modular` is a module system for Laravel applications. It uses
+[Composer path repositories](https://getcomposer.org/doc/05-repositories.md#path) for autoloading, and [Laravel package discovery](https://laravel.com/docs/7.x/packages#package-discovery) for module initialization, and then provides minimal tooling to fill in any gaps. These modules use the existing 
+[Laravel package system](https://laravel.com/docs/7.x/packages), and follow existing Laravel
+conventions.
+
+## Documentation
+The documentation will be available in soon.
+
 ## Installation
 
 You can install the package via composer:
@@ -14,33 +22,35 @@ You can install the package via composer:
 composer require codder/laravel-modular
 ```
 
-### Autoloading
+### Create a module
 
-By default, the module classes are not loaded automatically. You can autoload your modules using `psr-4`. For example:
+Next, let's create a module:
 
-``` json
-{
-  "autoload": {
-    "psr-4": {
-      "App\\": "app/",
-      "Modules\\": "modules/",
-      "Database\\Factories\\": "database/factories/",
-      "Database\\Seeders\\": "database/seeders/"
-  }
-}
+```shell script
+php artisan module:make foo 
 ```
 
-## Documentation
+Modular will scaffold up a new module for you:
 
-The documentation will be available in soon.
-
-Tips: The skeleton follows the same as [nWidart/laravel-modules](https://nwidart.com/laravel-modules/v6/introduction).
+```
+modules/
+  composer.json
+  foo/
+    app/
+    config/
+    database/
+    public/
+    resources/
+    routes/
+```
 
 ### Assets
-Your assets are stored in ```modules/MODULE/Resources/assets``` after that run ```php artisan storage:link``` to create symbolic links from your assets to public folder.
+Your assets are stored in ```modules/MODULE/public``` after that run ```php artisan storage:link``` to create symbolic links from your assets to public folder.
 
-To call the assets in your blade just call the helper ```module_asset('example::test.jpg')```
+To call the assets in your blade just call the helper ```module_asset('foo::bar.jpg')```
 
+### Livewire
+This package supports Livewire >= 2!
 
 ## License
 

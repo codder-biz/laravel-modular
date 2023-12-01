@@ -19,8 +19,8 @@ class RouteModuleServiceProvider extends ServiceProvider
 
     private function mapApiRoutes(string $module): void
     {
-        $routes = Route::prefix('api')
-            ->middleware(['api', 'throttle:60,1'])
+        $routes = Route::middleware('api')
+            ->prefix('api')
             ->name($module . '.');
 
         if ($this->app->runningInConsole() && in_array('module:routes', $_SERVER['argv'] ?? [])) {
@@ -33,7 +33,6 @@ class RouteModuleServiceProvider extends ServiceProvider
     private function mapWebRoutes(string $module): void
     {
         $routes = Route::middleware('web')
-            ->middleware('throttle:60,1')
             ->name($module . '.');
 
         if ($this->app->runningInConsole() && in_array('module:routes', $_SERVER['argv'] ?? [])) {

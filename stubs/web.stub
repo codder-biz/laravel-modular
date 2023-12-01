@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\{{ namespace }}\App\Http\Controllers\ExampleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,4 +13,4 @@ use Modules\{{ namespace }}\App\Http\Controllers\ExampleController;
 |
 */
 
-Route::get('/{{ module }}', [ExampleController::class, 'index']);
+Route::get('/{{ module }}', 'Modules\{{ namespace }}\App\Http\Controllers\ExampleController@index');

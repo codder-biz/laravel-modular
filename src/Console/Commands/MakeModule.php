@@ -5,6 +5,7 @@ namespace Codder\Laravel\Modular\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Filesystem\Filesystem;
+use Livewire\Livewire;
 
 class MakeModule extends Command
 {
@@ -28,6 +29,8 @@ class MakeModule extends Command
 
     private bool $isFirst;
 
+    private bool $hasLivewire;
+
     private string $dir;
 
     private Filesystem $filesystem;
@@ -37,6 +40,7 @@ class MakeModule extends Command
         parent::__construct();
         $this->filesystem = new Filesystem;
         $this->modules = modules();
+        $this->hasLivewire = class_exists(Livewire::class);
         $this->isFirst = count($this->modules) !== 1;
     }
 
@@ -56,6 +60,7 @@ class MakeModule extends Command
             $this->composerModule();
             $this->composerApp();
             exec('cd ' . base_path() . ' && composer update modules/modules > /dev/null 2>&1');
+            if ($this->hasLivewire) $this->line('Livewire, try to access: <info>' . url('counter') . '</info>');
             return $this->line('Finished, try to access: <info>' . url($this->module) . '</info>');
         }
 
@@ -83,7 +88,7 @@ class MakeModule extends Command
             "app" => false,
             "app/Http" => false,
             "app/Http/Controllers" => false,
-            "app/Http/Livewire" => true,
+            "app/Http/Livewire" => !$this->hasLivewire,
             "app/Models" => true,
             "app/Providers" => true
         ] as $dir => $keep) {
@@ -99,7 +104,7 @@ class MakeModule extends Command
 
     protected function getStubs(): array
     {
-        return [
+        $data = [
             'composer.stub' => base_path('modules/composer.json'),
             'config.stub' => "config/$this->module.php",
             'DatabaseSeeder.stub' => 'database/seeders/DatabaseSeeder.php',
@@ -108,6 +113,13 @@ class MakeModule extends Command
             'web.stub' => 'routes/web.php',
             'api.stub' => 'routes/api.php',
         ];
+
+        if ($this->hasLivewire) {
+            $data['Counter.stub'] = 'app/Http/Livewire/Counter.php';
+            $data['view_livewire.stub'] = 'resources/views/livewire/counter.blade.php';
+        }
+
+        return $data;
     }
 
     private function writeStubs(): void
@@ -131,6 +143,10 @@ class MakeModule extends Command
 
             $this->filesystem->ensureDirectoryExists($this->filesystem->dirname($filename));
             $this->filesystem->put($filename, $output);
+        }
+
+        if ($this->hasLivewire) {
+            $this->filesystem->append("{$this->dir}/routes/web.php", "Route::get('/counter', 'Modules\\".ucfirst($this->module)."\\App\Http\Livewire\Counter');");
         }
     }
 

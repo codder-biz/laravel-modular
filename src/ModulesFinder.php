@@ -50,6 +50,6 @@ class ModulesFinder
     public function build()
     {
         $this->find();
-        // $this->write();
+        $this->write();
     }
 }
