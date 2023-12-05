@@ -27,7 +27,7 @@ class RouteModuleServiceProvider extends ServiceProvider
             $routes->name($module . '.');
         }
 
-        $routes->group(module_path($module, 'routes/api.php'));
+        if (file_exists($dir = module_path($module, 'routes/api.php'))) $routes->group($dir);
     }
 
     private function mapWebRoutes(string $module): void
@@ -39,6 +39,6 @@ class RouteModuleServiceProvider extends ServiceProvider
             $routes->name($module . '.');
         }
 
-        $routes->group(module_path($module, 'routes/web.php'));
+        if (file_exists($dir = module_path($module, 'routes/web.php'))) $routes->group($dir);
     }
 }
