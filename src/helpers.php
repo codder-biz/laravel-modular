@@ -3,7 +3,17 @@
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
-// Get Files List
+// Get Actual Module
+if (!function_exists('actual_module')) {
+    function actual_module(): ?string
+    {
+        $route = request()->route()->getName();
+        $module = explode('.', $route)[0] ?? false;
+        return in_array($module, modules()) ? $module : null;
+    }
+}
+
+// Get Assets
 if (!function_exists('module_asset')) {
     function module_asset(string $dir)
     {
