@@ -60,11 +60,13 @@ class ModularServiceProvider extends ServiceProvider
             $finder->build();
         }
 
-        // Register the exists providers
-        foreach ($finder->list as $provider) {
-            if (class_exists($provider)) $this->app->register($provider);
-        }
-
-        if ($this->app->runningInConsole()) $this->app->register(EventModuleServiceProvider::class);
+        $this->app->resolving('view', function () use ($finder) {
+            // Register the exists providers
+            foreach ($finder->list as $provider) {
+                if (class_exists($provider)) $this->app->register($provider);
+            }
+    
+            if ($this->app->runningInConsole()) $this->app->register(EventModuleServiceProvider::class);
+        });
     }
 }
