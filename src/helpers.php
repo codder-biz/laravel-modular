@@ -106,8 +106,8 @@ if (!function_exists('module_database_path')) {
 }
 
 // Resources Path
-if (!function_exists('module_resources_path')) {
-    function module_resources_path(string $module, ?string $extra = null)
+if (!function_exists('module_resource_path')) {
+    function module_resource_path(string $module, ?string $extra = null)
     {
         return module_path($module, 'resources' . ($extra ? '/' . $extra : null));
     }
